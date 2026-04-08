@@ -66,6 +66,9 @@ services:
       ApiSettings__BaseUrl: "http://math-api:8080"
     ports:
       - "8082:8080"
+    volumes:
+      - client-dataprotection-keys:/keys
 
 volumes:
   mathdb_data:
+  client-dataprotection-keys:

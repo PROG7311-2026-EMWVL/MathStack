@@ -1,6 +1,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 
 USER root
+RUN mkdir /keys && chown app:app /keys
 RUN apt-get update && apt-get install -y libgssapi-krb5-2
 USER app
 
