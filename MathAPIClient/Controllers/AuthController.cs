@@ -8,12 +8,20 @@ namespace MathAPIClient.Controllers
 {
     public class AuthController : Controller
     {
-        
-        private static HttpClient httpClient = new()
+        private static HttpClient httpClient;
+        public AuthController(IConfiguration configuration)
         {
-            BaseAddress = new Uri("http://localhost:5184/"),
-        };
+            if (httpClient == null)
+            {
+                var baseUrl = configuration["ApiSettings:BaseUrl"];
 
+                httpClient = new HttpClient
+                {
+                    BaseAddress = new Uri(baseUrl)
+                };
+            }
+        }
+        
         [HttpGet]
         public IActionResult Register()
         {

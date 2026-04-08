@@ -10,10 +10,19 @@ namespace MathAPIClient.Controllers
     public class MathController : Controller
     {
 
-        private static HttpClient httpClient = new()
+        private static HttpClient httpClient;
+        public MathController(IConfiguration configuration)
         {
-            BaseAddress = new Uri("http://localhost:5184/"),
-        };
+            if (httpClient == null)
+            {
+                var baseUrl = configuration["ApiSettings:BaseUrl"];
+
+                httpClient = new HttpClient
+                {
+                    BaseAddress = new Uri(baseUrl)
+                };
+            }
+        }
 
         public IActionResult Calculate()
         {

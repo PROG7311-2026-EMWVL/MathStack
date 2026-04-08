@@ -15,14 +15,20 @@ namespace MathAPI.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-        
-        FirebaseAuthProvider auth;
-        byte[] key;
+        private readonly IConfiguration configuration;
 
-        public AuthController()
+        private readonly FirebaseAuthProvider auth;
+        private readonly byte[] key;
+
+        public AuthController(IConfiguration configuration)
         {
-            auth = new FirebaseAuthProvider(new FirebaseConfig(Environment.GetEnvironmentVariable("FirebaseMathApp")));
-            key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("MathAppJwtKey"));
+            configuration = configuration;
+
+            var firebaseApiKey = configuration["FirebaseMathApp"];
+            var jwtKey = configuration["MathAppJwtKey"];
+            
+            auth = new FirebaseAuthProvider(new FirebaseConfig(firebaseApiKey));
+            key = Encoding.ASCII.GetBytes(jwtKey);
         }
 
         [HttpPost("Register")]
