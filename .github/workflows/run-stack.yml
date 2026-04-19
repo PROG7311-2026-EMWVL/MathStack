@@ -57,11 +57,11 @@ jobs:
           docker logs math-db || true
           exit 1
 
-      - name: Wait for API port
+      - name: Wait for API
         run: |
           for i in {1..36}; do
-            if curl -fsS http://localhost:8081/ >/dev/null 2>&1; then
-              echo "API responded on port 8081"
+            if curl -fsS http://localhost:8081/api/health; then
+              echo "API is ready"
               exit 0
             fi
             echo "Waiting for API..."
